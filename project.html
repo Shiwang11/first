@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ABES EC</title>
+  <meta name="description" content="ABES Engineering College – simple single‑page website demo with HTML & CSS." />
+  <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+  <style>
+    :root{
+      --bg: #0b1220;
+      --card: #0f172a;
+      --muted: #9aa4b2;
+      --text: #e6ebf2;
+      --brand: #5b8cff;
+      --brand-2: #22c55e;
+      --ring: rgba(91,140,255,.35);
+      --shadow: 0 10px 30px rgba(2,6,23,.4);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(91,140,255,.15), transparent 60%),
+                  radial-gradient(1000px 600px at -10% 10%, rgba(34,197,94,.12), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      line-height:1.6;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1200px; margin:0 auto; padding:0 20px}
+
+    /* Header */
+    header{
+      position:sticky; top:0; z-index:50; backdrop-filter: blur(10px);
+      background: linear-gradient(180deg, rgba(11,18,32,.9), rgba(11,18,32,.6));
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 0}
+    .logo{display:flex; align-items:center; gap:12px; font-weight:700; letter-spacing:.3px}
+    .logo-mark{width:36px; height:36px; border-radius:12px; display:grid; place-items:center;
+      background:linear-gradient(135deg, var(--brand), #7c3aed); box-shadow:var(--shadow)}
+    .logo span{font-size:1.05rem}
+
+    /* Mobile menu */
+    #menuToggle{display:none}
+    .menu-btn{display:none; border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:10px 12px}
+    nav ul{display:flex; gap:22px; list-style:none; margin:0; padding:0}
+    nav a{padding:10px 12px; border-radius:10px; color:var(--muted)}
+    nav a:hover{background:rgba(255,255,255,.06); color:var(--text)}
+    .cta{background:linear-gradient(135deg, var(--brand), #7c3aed); padding:10px 14px; border-radius:12px; color:white; font-weight:600; box-shadow:var(--shadow)}
+
+    @media (max-width: 860px){
+      .menu-btn{display:block}
+      nav ul{position:fixed; inset:64px 16px auto 16px; background:rgba(15,23,42,.98); padding:20px; border:1px solid rgba(255,255,255,.08); border-radius:16px; flex-direction:column; gap:8px; display:none}
+      #menuToggle:checked ~ nav ul{display:flex}
+    }
+
+    /* Hero */
+    .hero{position:relative; overflow:hidden}
+    .hero-wrap{display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; padding:64px 0}
+    .badge{display:inline-flex; align-items:center; gap:8px; font-size:.9rem; color:var(--muted); background:rgba(255,255,255,.06); padding:8px 12px; border:1px solid rgba(255,255,255,.08); border-radius:999px}
+    .hero h1{font-size:clamp(2rem, 4vw, 3rem); line-height:1.2; margin:16px 0 10px}
+    .hero p{color:#c7cfdb; margin:0 0 22px}
+    .hero .actions{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:12px 16px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:#141c2f; color:var(--text); font-weight:600}
+    .btn:hover{border-color:rgba(255,255,255,.2)}
+    .btn.primary{background:linear-gradient(135deg, var(--brand), #7c3aed); border:none}
+
+    .hero-card{position:relative; height:420px; border-radius:var(--radius); overflow:hidden; border:1px solid rgba(255,255,255,.1); box-shadow:var(--shadow)}
+    .hero-card img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05)}
+    .hero-card .overlay{position:absolute; inset:auto 0 0 0; padding:14px 16px; background:linear-gradient(180deg, transparent, rgba(0,0,0,.8)); font-size:.95rem; display:flex; align-items:center; justify-content:space-between}
+
+    @media (max-width: 980px){
+      .hero-wrap{grid-template-columns:1fr; gap:24px}
+      .hero-card{height:320px}
+    }
+
+    /* Cards */
+    .grid{display:grid; gap:18px}
+    .grid.cols-3{grid-template-columns:repeat(3, minmax(0,1fr))}
+    @media (max-width:880px){.grid.cols-3{grid-template-columns:1fr 1fr}}
+    @media (max-width:580px){.grid.cols-3{grid-template-columns:1fr}}
+
+    .card{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); padding:18px}
+    .card h3{margin:4px 0 6px}
+    .muted{color:var(--muted)}
+
+    /* Gallery */
+    .gallery{display:grid; grid-template-columns:2fr 1fr 1fr; gap:12px}
+    .gallery img{width:100%; height:100%; object-fit:cover; border-radius:14px; border:1px solid rgba(255,255,255,.08)}
+    .gallery .tall{grid-row:span 2}
+    @media (max-width:900px){.gallery{grid-template-columns:1fr 1fr}}
+    @media (max-width:580px){.gallery{grid-template-columns:1fr}}
+
+    /* Section */
+    section{padding:56px 0}
+    .section-head{display:flex; align-items:end; justify-content:space-between; gap:18px; margin-bottom:18px}
+    .section-head h2{margin:0; font-size:clamp(1.4rem, 2.8vw, 2rem)}
+
+    /* Timeline */
+    .timeline{display:grid; gap:12px}
+    .step{display:grid; grid-template-columns:100px 1fr; gap:16px; align-items:start}
+    .step .dot{width:28px; height:28px; border-radius:999px; background:linear-gradient(135deg, var(--brand), #7c3aed); display:grid; place-items:center; box-shadow:var(--shadow)}
+    .step .line{width:3px; background:linear-gradient(180deg, rgba(91,140,255,.5), rgba(34,197,94,.25)); border-radius:3px}
+    .step .content{background:var(--card); border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:14px}
+    @media (max-width:640px){
+      .step{grid-template-columns:1fr}
+      .step .line{display:none}
+    }
+
+    /* Contact */
+    form{display:grid; gap:12px}
+    input, textarea, select{
+      width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.12); background:#0c1426; color:var(--text); outline:none;
+    }
+    input:focus, textarea:focus{border-color:var(--ring); box-shadow:0 0 0 6px var(--ring)}
+    textarea{min-height:120px; resize:vertical}
+
+    footer{padding:36px 0; color:#9aa4b2; border-top:1px solid rgba(255,255,255,.08)}
+    .footer-grid{display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:18px}
+    .footer-grid ul{list-style:none; padding:0; margin:0; display:grid; gap:8px}
+    .footer-grid a{color:#c7cfdb}
+    @media (max-width:860px){.footer-grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:560px){.footer-grid{grid-template-columns:1fr}}
+
+    .tag{display:inline-block; padding:6px 10px; border:1px solid rgba(255,255,255,.1); border-radius:999px; color:#c7cfdb; font-size:.9rem}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <div class="logo">
+        <div class="logo-mark" aria-hidden="true">🏛️</div>
+        <span>ABES <span style="opacity:.75">Engineering College</span></span>
+      </div>
+
+      <input type="checkbox" id="menuToggle" aria-label="Toggle menu">
+      <label class="menu-btn" for="menuToggle">☰</label>
+
+      <nav>
+        <ul>
+          <li><a href="#about">About</a></li>
+          <li><a href="#departments">Departments</a></li>
+          <li><a href="#gallery">Campus Life</a></li>
+          <li><a href="#admissions">Admissions</a></li>
+          <li><a class="cta" href="#contact">Apply Now</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div>
+          <div class="badge">🎓 NAAC Accredited • NBA Certified Programs</div>
+          <h1>Welcome to <span style="color:var(--brand)">ABES EC</span> — where ideas become impact.</h1>
+          <p>Explore our innovative programs, industry‑ready curriculum, and vibrant campus community in Ghaziabad.
+          </p>
+          <div class="actions">
+            <a href="#departments" class="btn primary">Explore Departments</a>
+            <a href="#about" class="btn">Take a Campus Tour →</a>
+          </div>
+        </div>
+        <div>
+          <figure class="hero-card" aria-label="Campus image">
+            <img loading="eager" alt="ABES campus building at sunset" src="https://images.unsplash.com/photo-1609873531429-6b42c9ba6c0c?q=80&w=1600&auto=format&fit=crop" />
+            <figcaption class="overlay">
+              <span>Innovation Hub • Labs • Startups</span>
+              <span class="tag">Ranked Among Top Institutes</span>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="container">
+        <div class="section-head">
+          <h2>About ABES Engineering College</h2>
+          <span class="muted">Established 2000 • AKTU Affiliated</span>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>Why ABES EC?</h3>
+            <p>Project‑based learning, strong industry partnerships, and mentorship from experienced faculty prepare students for real‑world problem solving.</p>
+          </div>
+          <div class="card">
+            <h3>Placement Highlights</h3>
+            <p>Consistent placements across leading product & service companies. Career services include mock interviews, hackathons, and internship support.</p>
+          </div>
+          <div class="card">
+            <h3>Research & Clubs</h3>
+            <p>Active student chapters (IEEE, CSI, SAE), research groups, and a startup incubator to help turn ideas into products.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEPARTMENTS -->
+    <section id="departments">
+      <div class="container">
+        <div class="section-head">
+          <h2>Departments</h2>
+          <a href="#contact" class="btn">Ask a Counselor</a>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1581091215367-59ab6b11c632?q=80&w=1200&auto=format&fit=crop" alt="Computer science lab" style="width:100%; height:160px; object-fit:cover; border-radius:12px">
+            <h3>Computer Science & Engineering</h3>
+            <p class="muted">AI/ML • Data Science • Systems</p>
+          </div>
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop" alt="Electronics lab" style="width:100%; height:160px; object-fit:cover; border-radius:12px">
+            <h3>Electronics & Communication</h3>
+            <p class="muted">VLSI • Embedded • 5G/IoT</p>
+          </div>
+          <div class="card">
+            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1200&auto=format&fit=crop" alt="Mechanical workshop" style="width:100%; height:160px; object-fit:cover; border-radius:12px">
+            <h3>Mechanical Engineering</h3>
+            <p class="muted">Manufacturing • Robotics • CAD/CAM</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GALLERY -->
+    <section id="gallery">
+      <div class="container">
+        <div class="section-head">
+          <h2>Campus Life</h2>
+          <span class="muted">Events • Labs • Green Campus</span>
+        </div>
+        <div class="gallery">
+          <img class="tall" src="https://images.unsplash.com/photo-1523246191814-88f8a76b5b83?q=80&w=1200&auto=format&fit=crop" alt="Students collaborating in a lab">
+          <img src="https://images.unsplash.com/photo-1516397281156-ca07cf9746fc?q=80&w=1200&auto=format&fit=crop" alt="Auditorium event">
+          <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=1200&auto=format&fit=crop" alt="Green campus lawns">
+          <img src="https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?q=80&w=1200&auto=format&fit=crop" alt="Coding hackathon">
+          <img src="https://images.unsplash.com/photo-1531058020387-3be344556be6?q=80&w=1200&auto=format&fit=crop" alt="Robotics workshop">
+        </div>
+      </div>
+    </section>
+
+    <!-- ADMISSIONS TIMELINE -->
+    <section id="admissions">
+      <div class="container">
+        <div class="section-head">
+          <h2>Admissions Timeline</h2>
+          <span class="muted">Your path to ABES EC</span>
+        </div>
+        <div class="timeline">
+          <div class="step">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div class="dot">1</div>
+              <strong>Register</strong>
+            </div>
+            <div class="content">Fill the online application form and upload required documents.
+            </div>
+          </div>
+          <div class="step">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div class="dot">2</div>
+              <strong>Entrance / Merit</strong>
+            </div>
+            <div class="content">Selections based on AKTU/JEECUP/merit criteria as applicable to the program.</div>
+          </div>
+          <div class="step">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div class="dot">3</div>
+              <strong>Counseling</strong>
+            </div>
+            <div class="content">Choose your branch and complete document verification.</div>
+          </div>
+          <div class="step">
+            <div style="display:flex; gap:12px; align-items:center">
+              <div class="dot">4</div>
+              <strong>Join the Campus</strong>
+            </div>
+            <div class="content">Attend orientation and kickstart your journey with clubs & labs.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="container">
+        <div class="section-head">
+          <h2>Get in Touch</h2>
+          <span class="muted">Have questions? We’d love to help.</span>
+        </div>
+        <div class="grid cols-3">
+          <div class="card">
+            <h3>Write to Us</h3>
+            <form onsubmit="event.preventDefault(); alert('Thanks! We\'ll get back to you soon.'); this.reset();">
+              <input type="text" name="name" placeholder="Your Name" required>
+              <input type="email" name="email" placeholder="Email" required>
+              <select name="program" aria-label="Program interest">
+                <option value="">Interested Program</option>
+                <option>CSE</option>
+                <option>ECE</option>
+                <option>Mechanical</option>
+              </select>
+              <textarea name="message" placeholder="Message"></textarea>
+              <button class="btn primary" type="submit">Send Message</button>
+            </form>
+          </div>
+          <div class="card">
+            <h3>Campus Address</h3>
+            <p>ABES Engineering College<br>Ghaziabad, Uttar Pradesh, India</p>
+            <p class="muted">Open Mon–Sat • 9:00 AM – 5:30 PM</p>
+            <a class="btn" href="https://maps.google.com" target="_blank" rel="noreferrer">Open in Maps</a>
+          </div>
+          <div class="card">
+            <h3>Quick Links</h3>
+            <div style="display:flex; gap:8px; flex-wrap:wrap">
+              <span class="tag">Prospectus</span>
+              <span class="tag">Scholarships</span>
+              <span class="tag">Hostel</span>
+              <span class="tag">Clubs</span>
+              <span class="tag">Placements</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-grid">
+      <div>
+        <strong>ABES EC</strong>
+        <p class="muted">Inspiring engineers and innovators through quality education and a culture of hands‑on learning.</p>
+      </div>
+      <div>
+        <strong>Academics</strong>
+        <ul>
+          <li><a href="#departments">Departments</a></li>
+          <li><a href="#admissions">Admissions</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Resources</strong>
+        <ul>
+          <li><a href="#gallery">Campus Life</a></li>
+          <li><a href="#">Research</a></li>
+          <li><a href="#">Alumni</a></li>
+        </ul>
+      </div>
+      <div>
+        <strong>Follow</strong>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="#">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="container" style="margin-top:18px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap">
+      <small>© <span id="year"></span> ABES Engineering College</small>
+      <small class="muted">Built with pure HTML & CSS</small>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
